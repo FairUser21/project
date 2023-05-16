@@ -12,8 +12,8 @@ export default function ProductCard({ item }) {
   const { deleteProduct } = useProduct();
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardMedia sx={{ height: 140 }} image={item.image} title="green iguana" />
+    <Card sx={{ maxWidth: 350 }}>
+      <CardMedia sx={{ height: 500 }} image={item.image} title="green iguana" />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {item.title}
