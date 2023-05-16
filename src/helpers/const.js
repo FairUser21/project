@@ -17,3 +17,7 @@ export function totalSumFunc(products) {
   let data = products.reduce((acc, item) => acc + item.subPrice, 0);
   return data;
 }
+
+export function calcSubPrice(product) {
+  return +product.count * product.price;
+}

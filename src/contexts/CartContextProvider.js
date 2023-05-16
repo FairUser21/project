@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { ACTIONS, totalSumFunc } from "../helpers/const";
+import { ACTIONS, calcSubPrice, totalSumFunc } from "../helpers/const";
 import { notify } from "../components/Toastify";
 
 const cartContext = createContext();
@@ -57,10 +57,26 @@ const CartContextProvider = ({ children }) => {
     notify("Successfully added to cart");
   }
 
+  function changeProductCount(count, id) {
+    const cart = getDataFromLS();
+
+    cart.products = cart.products.map((product) => {
+      if (product.id === id) {
+        product.count = count;
+        product.subPrice = calcSubPrice(product);
+      }
+      return product;
+    });
+    cart.totalPrice = totalSumFunc(cart.products);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    getCart();
+  }
+
   const values = {
     cart: state.cart,
     getCart,
     addProductToCart,
+    changeProductCount,
   };
 
   return <cartContext.Provider value={values}>{children}</cartContext.Provider>;

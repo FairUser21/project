@@ -6,25 +6,30 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useCart } from "../contexts/CartContextProvider";
 import { Link } from "react-router-dom";
 
 const CartPage = () => {
-  const { cart, getCart } = useCart();
+  const { cart, getCart, changeProductCount } = useCart();
+
+  useEffect(() => {
+    getCart();
+  }, []);
 
   return (
     <div>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Image</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell>Price</TableCell>
+            <TableCell>Category</TableCell>
+            <TableCell align="center">Count</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -33,10 +38,19 @@ const CartPage = () => {
               <TableCell>
                 <img src={row.image} alt="" width={30} />
               </TableCell>
+              <TableCell>{row.title}</TableCell>
               <TableCell>{row.price}</TableCell>
-              {/* <TableCell>{row.}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell> */}
+              <TableCell>{row.category}</TableCell>
+              <TableCell align="center">
+                <input
+                  type="number"
+                  value={row.count}
+                  onChange={(e) => changeProductCount(e.target.value, row.id)}
+                  min={1}
+                  max={100}
+                />
+              </TableCell>
+              <TableCell>{row.subPrice}</TableCell>
             </TableRow>
           ))}
         </TableBody>
