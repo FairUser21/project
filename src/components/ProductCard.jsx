@@ -7,9 +7,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useProduct } from "../contexts/ProductContextProvider";
 import { Link } from "react-router-dom";
+import { useCart } from "../contexts/CartContextProvider";
+import { IconButton } from "@mui/material";
+import { AddShoppingCart } from "@mui/icons-material";
 
 export default function ProductCard({ item }) {
   const { deleteProduct } = useProduct();
+  const { addProductToCart } = useCart();
 
   return (
     <Card sx={{ maxWidth: 350 }}>
@@ -32,6 +36,9 @@ export default function ProductCard({ item }) {
         <Button size="small" onClick={() => deleteProduct(item.id)}>
           Delete
         </Button>
+        <IconButton onClick={() => addProductToCart(item)}>
+          <AddShoppingCart />
+        </IconButton>
       </CardActions>
     </Card>
   );

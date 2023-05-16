@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { ACTIONS } from "../helpers/const";
+import { ACTIONS, totalSumFunc } from "../helpers/const";
+import { notify } from "../components/Toastify";
 
 const cartContext = createContext();
 
@@ -49,12 +50,17 @@ const CartContextProvider = ({ children }) => {
 
   function addProductToCart(product) {
     let data = getDataFromLS();
-    data.product.push({ ...product, count: 1, subPrice: +product.price });
+    data.products.push({ ...product, count: 1, subPrice: +product.price });
+    data.totalPrice = totalSumFunc(data.products);
+    localStorage.setItem("cart", JSON.stringify(data));
+
+    notify("Successfully added to cart");
   }
 
   const values = {
     cart: state.cart,
     getCart,
+    addProductToCart,
   };
 
   return <cartContext.Provider value={values}>{children}</cartContext.Provider>;
