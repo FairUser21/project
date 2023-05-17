@@ -13,7 +13,7 @@ import { AddShoppingCart } from "@mui/icons-material";
 
 export default function ProductCard({ item }) {
   const { deleteProduct } = useProduct();
-  const { addProductToCart } = useCart();
+  const { addProductToCart, isAlreadyInCart, deleteFromCart } = useCart();
 
   return (
     <Card sx={{ maxWidth: 350 }}>
@@ -36,7 +36,10 @@ export default function ProductCard({ item }) {
         <Button size="small" onClick={() => deleteProduct(item.id)}>
           Delete
         </Button>
-        <IconButton onClick={() => addProductToCart(item)}>
+        <IconButton
+          onClick={() => addProductToCart(item)}
+          color={isAlreadyInCart() ? "error" : "primary"}
+        >
           <AddShoppingCart />
         </IconButton>
       </CardActions>

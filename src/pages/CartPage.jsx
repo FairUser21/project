@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  IconButton,
   Table,
   TableBody,
   TableCell,
@@ -9,12 +10,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect } from "react";
 import { useCart } from "../contexts/CartContextProvider";
 import { Link } from "react-router-dom";
 
 const CartPage = () => {
-  const { cart, getCart, changeProductCount } = useCart();
+  const { cart, getCart, changeProductCount, deleteFromCart } = useCart();
 
   useEffect(() => {
     getCart();
@@ -30,6 +32,7 @@ const CartPage = () => {
             <TableCell>Price</TableCell>
             <TableCell>Category</TableCell>
             <TableCell align="center">Count</TableCell>
+            <TableCell>SubPrice</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -51,6 +54,11 @@ const CartPage = () => {
                 />
               </TableCell>
               <TableCell>{row.subPrice}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => deleteFromCart(row.id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

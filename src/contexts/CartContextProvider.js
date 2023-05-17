@@ -50,7 +50,16 @@ const CartContextProvider = ({ children }) => {
 
   function addProductToCart(product) {
     let data = getDataFromLS();
-    data.products.push({ ...product, count: 1, subPrice: +product.price });
+
+    const isInCart = data.products.some((item) => item.id === product.id);
+
+    if (isInCart) {
+      deleteFromCart(product.id);
+      return;
+    } else {
+      data.products.push({ ...product, count: 1, subPrice: +product.price });
+    }
+
     data.totalPrice = totalSumFunc(data.products);
     localStorage.setItem("cart", JSON.stringify(data));
 
@@ -72,11 +81,30 @@ const CartContextProvider = ({ children }) => {
     getCart();
   }
 
+  function deleteFromCart(id) {
+    const data = getDataFromLS();
+    data.products = data.products.filter((item) => item.id !== id);
+
+    data.totalPrice = totalSumFunc(data.products);
+    localStorage.setItem("cart", JSON.stringify(data));
+    getCart();
+    notify("Successfully removed from cart");
+  }
+
+  function isAlreadyInCart(id) {
+    const data = getDataFromLS();
+
+    const isInCart = data.products.some((item) => item.id === id);
+    return isInCart;
+  }
+
   const values = {
     cart: state.cart,
     getCart,
     addProductToCart,
     changeProductCount,
+    deleteFromCart,
+    isAlreadyInCart,
   };
 
   return <cartContext.Provider value={values}>{children}</cartContext.Provider>;
