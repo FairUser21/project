@@ -41,16 +41,12 @@ const CartContextProvider = ({ children }) => {
 
   function getCart() {
     const data = getDataFromLS();
-    let len = 0;
-    data.products.forEach((item) => {
-      len += item.count;
-    });
-
+    let len = data.products.reduce((acc, item) => acc + +item.count, 0);
+    console.warn(len);
     dispatch({
       type: ACTIONS.cart,
       payload: data,
     });
-
     dispatch({
       type: ACTIONS.cartLength,
       payload: len,
