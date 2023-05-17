@@ -41,10 +41,19 @@ const CartContextProvider = ({ children }) => {
 
   function getCart() {
     const data = getDataFromLS();
+    let len = 0;
+    data.products.forEach((item) => {
+      len += item.count;
+    });
 
     dispatch({
       type: ACTIONS.cart,
       payload: data,
+    });
+
+    dispatch({
+      type: ACTIONS.cartLength,
+      payload: len,
     });
   }
 
@@ -62,7 +71,7 @@ const CartContextProvider = ({ children }) => {
 
     data.totalPrice = totalSumFunc(data.products);
     localStorage.setItem("cart", JSON.stringify(data));
-
+    getCart();
     notify("Successfully added to cart");
   }
 
@@ -94,12 +103,13 @@ const CartContextProvider = ({ children }) => {
   function isAlreadyInCart(id) {
     const data = getDataFromLS();
 
-    const isInCart = data.products.some((item) => item.id === id);
-    return isInCart;
+    const isInCart = data.products.filter((item) => item.id === id);
+    return isInCart.lenght > 0 ? true : false;
   }
 
   const values = {
     cart: state.cart,
+    cartLength: state.cartLength,
     getCart,
     addProductToCart,
     changeProductCount,

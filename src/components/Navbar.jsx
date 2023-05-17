@@ -16,6 +16,7 @@ import { useAuth } from "../contexts/AuthContextProvider";
 import { Link } from "react-router-dom";
 import { Badge } from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
+import { useCart } from "../contexts/CartContextProvider";
 
 const pages = [{ title: "Home", link: "/" }];
 
@@ -41,6 +42,7 @@ function Navbar() {
   };
 
   const { user, logout, isAdmin } = useAuth();
+  const { cartLength } = useCart();
 
   return (
     <AppBar position="static">
@@ -170,7 +172,7 @@ function Navbar() {
 
           <Box sx={{ flexGrow: 0 }}>
             <IconButton component={Link} to="/cart" sx={{ color: "white" }}>
-              <Badge badgeContent={5} color="error">
+              <Badge badgeContent={cartLength} color="error">
                 <ShoppingCart />
               </Badge>
             </IconButton>

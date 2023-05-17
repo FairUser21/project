@@ -38,7 +38,7 @@ export default function ProductCard({ item }) {
         </Button>
         <IconButton
           onClick={() => addProductToCart(item)}
-          color={isAlreadyInCart() ? "error" : "primary"}
+          color={isAlreadyInCart(item.id) ? "error" : ""}
         >
           <AddShoppingCart />
         </IconButton>

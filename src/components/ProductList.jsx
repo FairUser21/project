@@ -23,7 +23,6 @@ const ProductList = () => {
   const [category, setCategory] = useState(
     searchParams.get("category") || "all"
   );
-  console.log(searchParams.get("q"), "PARAAAAAAMS");
   useEffect(() => {
     if (category === "all") {
       setSearchParams({
